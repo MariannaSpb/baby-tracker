@@ -1,0 +1,174 @@
+<div class="page">
+  <header class="header">
+    <h1 id="page-title" class="title">Baby</h1>
+
+    <button class="icon-button" type="button" aria-label="Settings">
+      <mat-icon>settings</mat-icon>
+    </button>
+  </header>
+
+  <main aria-labelledby="page-title">
+  <section class="section" aria-labelledby="quick-actions-title">
+    <h2 id="quick-actions-title" class="section-title">Quick Actions</h2>
+
+    <div class="actions-grid" role="group" aria-label="Quick actions">
+      <button class="action-card action-card--blue" type="button">
+        <mat-icon class="action-mat-icon">child_care</mat-icon>
+        <span class="action-label">Feed</span>
+      </button>
+
+      <button class="action-card action-card--purple" type="button">
+        <mat-icon class="action-mat-icon">bedtime</mat-icon>
+        <span class="action-label">Sleep</span>
+      </button>
+
+      <button class="action-card action-card--amber" type="button">
+        <mat-icon class="action-mat-icon">water_drop</mat-icon>
+        <span class="action-label">Diaper</span>
+      </button>
+
+      <button class="action-card action-card--pink" type="button">
+        <mat-icon class="action-mat-icon">local_drink</mat-icon>
+        <span class="action-label">Pump</span>
+      </button>
+
+      <button class="action-card action-card--slate" type="button">
+        <mat-icon class="action-mat-icon">sticky_note_2</mat-icon>
+        <span class="action-label">Note</span>
+      </button>
+
+      <button class="action-card action-card--neutral" type="button">
+        <mat-icon class="action-mat-icon">tune</mat-icon>
+        <span class="action-label">Other</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="summary-title">
+    <h2 id="summary-title" class="section-title">Today&#39;s Summary</h2>
+
+    <div class="summary-grid" role="list" aria-label="Today&#39;s summary stats">
+      <article class="stat-card" role="listitem" aria-label="Feeds: 0">
+        <span class="stat-icon stat-icon--blue" aria-hidden="true">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M12 21a8 8 0 1 0-8-8"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M7 14c2.2 2 6.8 2 9 0"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </span>
+        <div class="stat-text">
+          <div class="stat-label">Feeds</div>
+          <div class="stat-value">0</div>
+        </div>
+      </article>
+
+      <article class="stat-card" role="listitem" aria-label="Sleep total today: 0 minutes">
+        <span class="stat-icon stat-icon--purple" aria-hidden="true">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M21 13.5A8.5 8.5 0 0 1 10.5 3 7.5 7.5 0 1 0 21 13.5Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+        <div class="stat-text">
+          <div class="stat-label">Sleep total today</div>
+          <div class="stat-value">0m</div>
+        </div>
+      </article>
+
+      <article class="stat-card" role="listitem" aria-label="Diapers: 0">
+        <span class="stat-icon stat-icon--amber" aria-hidden="true">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M12 2s5 5.2 5 10.2A5 5 0 0 1 7 12.2C7 7.2 12 2 12 2Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+        <div class="stat-text">
+          <div class="stat-label">Diapers</div>
+          <div class="stat-value">0</div>
+        </div>
+      </article>
+
+      <article class="stat-card" role="listitem" aria-label="Awake today: 0 hours 0 minutes">
+        <span class="stat-icon stat-icon--red" aria-hidden="true">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M12 7v5l3 2"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+        <div class="stat-text">
+          <div class="stat-label">Awake today</div>
+          <div class="stat-value">0h 0m</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="timeline-title">
+    <h2 id="timeline-title" class="section-title">Today&#39;s Timeline</h2>
+
+    <div class="timeline-card" role="region" aria-label="Today&#39;s timeline">
+      <p class="empty-state">No events yet today</p>
+    </div>
+  </section>
+  </main>
+</div>

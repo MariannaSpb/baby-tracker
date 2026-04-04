@@ -1,0 +1,31 @@
+---
+description: Web accessibility rules for baby tracker
+alwaysApply: true
+---
+
+# Accessibility Rules
+
+## HTML
+- Use semantic HTML: button, nav, main, header, footer, section, article
+- Never use div or span as interactive elements
+- Every image needs alt attribute (empty alt="" for decorative images)
+- Heading hierarchy must be logical: h1 → h2 → h3, no skipping levels
+
+## Forms
+- Every input must have associated label with matching for/id
+- Never use placeholder as the only label
+- Required fields must have aria-required="true"
+- Error messages must be linked to inputs via aria-describedby
+
+## Interactive elements
+- Touch targets minimum 44x44px
+- Focus styles must be visible — never remove outline without replacement
+- Buttons must have descriptive text or aria-label
+
+## Color & contrast
+- Text contrast minimum 4.5:1 (normal text), 3:1 (large text 18px+)
+- Never convey information by color alone
+
+## Angular specific
+- Use [attr.aria-*] for dynamic ARIA attributes
+- RouterLink elements must have descriptive text
