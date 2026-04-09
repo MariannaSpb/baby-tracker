@@ -1,17 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
 
-import { Feed } from './feed';
+import { FeedComponent } from './feed';
 
-describe('Feed', () => {
-  let component: Feed;
-  let fixture: ComponentFixture<Feed>;
+describe('FeedComponent', () => {
+  let component: FeedComponent;
+  let fixture: ComponentFixture<FeedComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Feed],
+      imports: [FeedComponent],
+      providers: [
+        { provide: DialogRef, useValue: { close: () => undefined } },
+        { provide: DIALOG_DATA, useValue: null }
+      ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Feed);
+    fixture = TestBed.createComponent(FeedComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

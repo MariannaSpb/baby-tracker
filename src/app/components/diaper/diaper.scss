@@ -1,0 +1,141 @@
+:host {
+    display: block;
+  }
+  
+  .dialog {
+    width: min(430px, calc(100vw - 32px));
+    border-radius: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 16px;
+    color: var(--text);
+  }
+  
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .dialog-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+  }
+  
+  .icon-button {
+    inline-size: 44px;
+    block-size: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    display: grid;
+    place-items: center;
+    color: var(--text);
+    cursor: pointer;
+  }
+  
+  .icon-button:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  
+  .dialog-hint {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  
+  .type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  
+  .type-button {
+    min-block-size: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text);
+    font-weight: 800;
+    cursor: pointer;
+  }
+  
+  .type-button:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  
+  .amount-form {
+    display: grid;
+    gap: 12px;
+  }
+  
+  .field {
+    display: grid;
+    gap: 6px;
+  }
+  
+  .label {
+    font-weight: 800;
+    font-size: 14px;
+  }
+  
+  .input {
+    min-block-size: 44px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text);
+  }
+  
+  .input:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  
+  .error {
+    margin: 0;
+    color: #b91c1c;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  
+  .primary,
+  .secondary {
+    min-block-size: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    cursor: pointer;
+    font-weight: 800;
+  }
+  
+  .secondary {
+    background: var(--card-bg);
+    color: var(--text);
+  }
+  
+  .primary {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+  }
+  
+  .primary:focus-visible,
+  .secondary:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  
+  

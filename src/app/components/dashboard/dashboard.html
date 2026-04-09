@@ -8,96 +8,98 @@
   </header>
 
   <main aria-labelledby="page-title">
-  <section class="section" aria-labelledby="quick-actions-title">
-    <h2 id="quick-actions-title" class="section-title">Quick Actions</h2>
+    <section class="section" aria-labelledby="quick-actions-title">
+      <h2 id="quick-actions-title" class="section-title">Quick Actions</h2>
 
-    <div class="actions-grid" role="group" aria-label="Quick actions">
-      <button class="action-card action-card--blue" type="button">
-        <mat-icon class="action-mat-icon">child_care</mat-icon>
-        <span class="action-label">Feed</span>
-      </button>
+      <div class="actions-grid" role="group" aria-label="Quick actions">
+        <button class="action-card action-card--blue" type="button" (click)="onFeedClick()">
+          <mat-icon class="action-mat-icon">child_care</mat-icon>
+          <span class="action-label">Feed</span>
+        </button>
 
-      <button class="action-card action-card--purple" type="button">
-        <mat-icon class="action-mat-icon">bedtime</mat-icon>
-        <span class="action-label">Sleep</span>
-      </button>
+        <button class="action-card action-card--purple" type="button">
+          <mat-icon class="action-mat-icon">bedtime</mat-icon>
+          <span class="action-label">Sleep</span>
+        </button>
 
-      <button class="action-card action-card--amber" type="button">
-        <mat-icon class="action-mat-icon">water_drop</mat-icon>
-        <span class="action-label">Diaper</span>
-      </button>
-
-      <button class="action-card action-card--pink" type="button">
-        <mat-icon class="action-mat-icon">local_drink</mat-icon>
-        <span class="action-label">Pump</span>
-      </button>
-
-      <button class="action-card action-card--slate" type="button">
-        <mat-icon class="action-mat-icon">sticky_note_2</mat-icon>
-        <span class="action-label">Note</span>
-      </button>
-
-      <button class="action-card action-card--neutral" type="button">
-        <mat-icon class="action-mat-icon">tune</mat-icon>
-        <span class="action-label">Other</span>
-      </button>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="summary-title">
-    <h2 id="summary-title" class="section-title">Today's Summary</h2>
-
-    <ul class="summary-grid" aria-label="Today's summary stats">
-      <li class="stat-card">
-        <span class="stat-icon stat-icon--blue">
-          <mat-icon class="action-mat-icon">av_timer</mat-icon>
-        </span>
-        <div class="stat-text">
-          <span class="stat-label">Feeds</span>
-          <span class="stat-value">0</span>
-        </div>
-      </li>
-
-      <li class="stat-card">
-        <span class="stat-icon stat-icon--purple">
-        <mat-icon class="action-mat-icon">bedtime</mat-icon>
-        </span>
-        <div class="stat-text">
-          <span class="stat-label">Sleep total today</span>
-          <span class="stat-value">0m</span>
-        </div>
-      </li>
-
-      <li class="stat-card">
-        <span class="stat-icon stat-icon--amber">
+        <button class="action-card action-card--amber" type="button" (click)="onDiaperClick()">
           <mat-icon class="action-mat-icon">water_drop</mat-icon>
-        </span>
-        <div class="stat-text">
-          <span class="stat-label">Diapers</span>
-          <span class="stat-value">0</span>
-        </div>
-      </li>
+          <span class="action-label">Diaper</span>
+        </button>
 
-      <li class="stat-card">
-        <span class="stat-icon stat-icon--red">
-          <mat-icon class="action-mat-icon">history_2</mat-icon>
-        </span>
-        <div class="stat-text">
-          <span class="stat-label">Awake today</span>
-          <span class="stat-value">0h 0m</span>
-        </div>
-      </li>
-    </ul>
-  </section>
+        <button class="action-card action-card--pink" type="button">
+          <mat-icon class="action-mat-icon">local_drink</mat-icon>
+          <span class="action-label">Pump</span>
+        </button>
 
-  <section class="section" aria-labelledby="timeline-title">
-    <h2 id="timeline-title" class="section-title">Today's Timeline</h2>
+        <button class="action-card action-card--slate" type="button">
+          <mat-icon class="action-mat-icon">sticky_note_2</mat-icon>
+          <span class="action-label">Note</span>
+        </button>
 
-    <!-- <div class="timeline-card" role="region" aria-label="Today's timeline"> -->
-    <!-- to do: use list and list item -->
+        <button class="action-card action-card--neutral" type="button">
+          <mat-icon class="action-mat-icon">tune</mat-icon>
+          <span class="action-label">Other</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="summary-title">
+      <h2 id="summary-title" class="section-title">Today's Summary</h2>
+
+      <ul class="summary-grid" aria-label="Today's summary stats">
+        <li class="stat-card">
+          <span class="stat-icon stat-icon--blue">
+            <span class="material-symbols-outlined">
+              breastfeeding
+            </span>
+          </span>
+          <div class="stat-text">
+            <span class="stat-label">Feeds</span>
+            <span class="stat-value">{{ feedCount() }}</span>
+          </div>
+        </li>
+
+        <li class="stat-card">
+          <span class="stat-icon stat-icon--purple">
+            <mat-icon class="action-mat-icon">bedtime</mat-icon>
+          </span>
+          <div class="stat-text">
+            <span class="stat-label">Sleep total today</span>
+            <span class="stat-value">0m</span>
+          </div>
+        </li>
+
+        <li class="stat-card">
+          <span class="stat-icon stat-icon--amber">
+            <mat-icon class="action-mat-icon">water_drop</mat-icon>
+          </span>
+          <div class="stat-text">
+            <span class="stat-label">Diapers</span>
+            <span class="stat-value">{{ diperCount() }}</span>
+          </div>
+        </li>
+
+        <li class="stat-card">
+          <span class="stat-icon stat-icon--red">
+            <mat-icon class="action-mat-icon">history_2</mat-icon>
+          </span>
+          <div class="stat-text">
+            <span class="stat-label">Awake today</span>
+            <span class="stat-value">0h 0m</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="timeline-title">
+      <h2 id="timeline-title" class="section-title">Today's Timeline</h2>
+
+      <!-- <div class="timeline-card" role="region" aria-label="Today's timeline"> -->
+      <!-- to do: use list and list item -->
       <div class="timeline-card">
-      <p class="empty-state">No events yet today</p>
-    </div>
-  </section>
+        <p class="empty-state">No events yet today</p>
+      </div>
+    </section>
   </main>
 </div>

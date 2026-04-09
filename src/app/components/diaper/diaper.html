@@ -1,1 +1,22 @@
-<p>diaper works!</p>
+<div class="dialog" role="dialog" aria-labelledby="diaper-title">
+  <header class="dialog-header">
+    <h2 id="diaper-title" class="dialog-title">Log diaper</h2>
+    <!-- <button class="icon-button" type="button" (click)="close()" aria-label="Close diaper dialog">
+        <mat-icon aria-hidden="true">close</mat-icon>
+      </button> -->
+  </header>
+
+  <p class="dialog-hint" id="diaper-step-hint">Choose a diaper type</p>
+
+  <div class="type-grid" role="group" aria-describedby="diaper-step-hint">
+    <button class="type-button" type="button" (click)="chooseType('pee')" cdkFocusInitial>
+      {{ Diaper.PEE}}
+    </button>
+    <button class="type-button" type="button" (click)="chooseType('poop')">
+      {{ Diaper.POOP}}
+    </button>
+    <button class="type-button" type="button" (click)="chooseType('mixed')">
+      {{ Diaper.MIXED}}
+    </button>
+  </div>
+</div>

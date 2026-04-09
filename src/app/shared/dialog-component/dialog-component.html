@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Enter amount</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="outline" style="width: 100%; margin-top: 8px;">
+    <mat-label>Amount (ml)</mat-label>
+    <input matInput type="number" inputmode="numeric" min="1" step="1" [(ngModel)]="amount" cdkFocusInitial />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Back</button>
+  <button mat-flat-button color="primary" [disabled]="!isValid()" (click)="save()">Ok</button>
+</mat-dialog-actions>

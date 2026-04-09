@@ -1,1 +1,25 @@
-<p>feed works!</p>
+<div class="dialog" role="dialog" aria-labelledby="feed-title">
+  <header class="dialog-header">
+    <h2 id="feed-title" class="dialog-title">Log feed</h2>
+    <button class="icon-button" type="button" (click)="close()" aria-label="Close feed dialog">
+      <mat-icon aria-hidden="true">close</mat-icon>
+    </button>
+  </header>
+
+  <p class="dialog-hint" id="feed-step-hint">Choose a feed type</p>
+
+  <div class="type-grid" role="group" aria-describedby="feed-step-hint">
+    <button class="type-button" type="button" (click)="chooseType('breast')" cdkFocusInitial>
+      Breast
+    </button>
+    <button class="type-button" type="button" (click)="chooseType('bottle')">
+      Bottle
+    </button>
+    <button class="type-button" type="button" (click)="chooseType('formula')">
+      Formula
+    </button>
+    <button class="type-button" type="button" (click)="chooseType('solids')">
+      Solids
+    </button>
+  </div>
+</div>
