@@ -8,6 +8,25 @@
   </header>
 
   <main aria-labelledby="page-title">
+    @if (isSleeping()) {
+      <div class="active-sleep-banner" role="status">
+        <div class="banner-content">
+          <span class="banner-icon">
+            <mat-icon>bedtime</mat-icon>
+          </span>
+          <div class="banner-text">
+            <span class="banner-label">Sleep in progress</span>
+            <span class="banner-value" aria-live="polite">{{ activeSleepDuration() }}m</span>
+          </div>
+        </div>
+        <button class="stop-button" type="button" aria-label="Stop sleep timer" (click)="onStopSleepClick()">
+          <!-- We can use a square icon for stop or just mat-icon -->
+          <mat-icon class="stop-icon">stop</mat-icon>
+          Stop
+        </button>
+      </div>
+    }
+
     <section class="section" aria-labelledby="quick-actions-title">
       <h2 id="quick-actions-title" class="section-title">Quick Actions</h2>
 
@@ -17,7 +36,7 @@
           <span class="action-label">Feed</span>
         </button>
 
-        <button class="action-card action-card--purple" type="button">
+        <button class="action-card action-card--purple" [class.is-active]="isSleeping()" [attr.aria-pressed]="isSleeping()" type="button" (click)="onSleepClick()">
           <mat-icon class="action-mat-icon">bedtime</mat-icon>
           <span class="action-label">Sleep</span>
         </button>
@@ -66,7 +85,7 @@
           </span>
           <div class="stat-text">
             <span class="stat-label">Sleep total today</span>
-            <span class="stat-value">0m</span>
+            <span class="stat-value">{{ sleepTotalMins() }}m</span>
           </div>
         </li>
 
