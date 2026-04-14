@@ -64,7 +64,7 @@ export class Dashboard implements OnDestroy {
   private checkActiveSleep() {
     const active = this.sleepService.isSleeping();
     this.isSleeping.set(active);
-    
+
     if (active) {
       this.updateActiveSleepDuration();
       if (!this.sleepTimerInterval) {
@@ -99,6 +99,10 @@ export class Dashboard implements OnDestroy {
 
   private refreshSleepCount() {
     this.sleepTotalMins.set(this.sleepService.getTodayTotalMinutes());
+  }
+
+  public onOtherClick() {
+    console.log('Other clicked');
   }
 }
 
