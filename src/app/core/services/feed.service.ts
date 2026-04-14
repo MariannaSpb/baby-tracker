@@ -6,10 +6,7 @@ import type { FeedEntry } from '../models/feed.model';
 import { FeedComponent } from '../../components/feed/feed';
 import { DiaperEntry } from '../models/diaper.model';
 import { Diaper } from '../../components/diaper/diaper';
-import { ActivityEntry } from '../../shared/models/models';
 
-type StoredFeedEntry = Omit<FeedEntry | DiaperEntry, 'timestamp'> & { timestamp: string };
-type StoredActivityEntry = Omit<ActivityEntry, 'timestamp'> & { timestamp: string };
 const FEED_KEY = 'baby_feeds';
 const DIAPER_KEY = 'baby_diapers';
 
@@ -77,16 +74,16 @@ export class FeedService {
   private getFeeds(): FeedEntry[] { return this.getAll(FEED_KEY); }
   private getDiapers(): DiaperEntry[] { return this.getAll(DIAPER_KEY); }
 
-  private getAll(key: string): any[] {
+  private getAll<T extends { timestamp: Date }>(key: string): T[] {
     try {
       const raw = localStorage.getItem(key);
       if (!raw) return [];
-      const parsed = JSON.parse(raw) as any[];
-      return parsed.map(e => ({ ...e, timestamp: new Date(e.timestamp) }));
+      const parsed = JSON.parse(raw) as (Omit<T, 'timestamp'> & { timestamp: string })[];
+      return parsed.map(e => ({ ...e, timestamp: new Date(e.timestamp) }) as unknown as T);
     } catch { return []; }
   }
 
-  private setAll(key: string, entries: any[]) {
+  private setAll<T extends { timestamp: Date }>(key: string, entries: T[]) {
     const stored = entries.map(e => ({ ...e, timestamp: e.timestamp.toISOString() }));
     localStorage.setItem(key, JSON.stringify(stored));
   }

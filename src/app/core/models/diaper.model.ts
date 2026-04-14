@@ -1,10 +1,10 @@
 export type DiaperType = 'pee' | 'poop' | 'mixed';
 
-export type DiaperEntry = {
+export interface DiaperEntry {
   type: DiaperType;
   amount?: number;
   timestamp: Date;
-};
+}
 
 export enum DiaperEnum {
     PEE = "Pee", 

@@ -22,7 +22,7 @@ export class Dashboard implements OnDestroy {
 
   protected readonly isSleeping = signal(false);
   protected readonly activeSleepDuration = signal(0);
-  private sleepTimerInterval: any;
+  private sleepTimerInterval: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
     this.refreshFeedCount();

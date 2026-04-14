@@ -1,8 +1,5 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { Component, inject } from '@angular/core';
-import { FeedEntry, FeedType } from '../../core/models/feed.model';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../../shared/dialog-component/dialog-component';
 import { DiaperEntry, DiaperEnum, DiaperType } from '../../core/models/diaper.model';
 import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';

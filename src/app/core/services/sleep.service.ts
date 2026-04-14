@@ -53,7 +53,7 @@ export class SleepService {
     try {
       const raw = localStorage.getItem(SLEEP_KEY);
       if (!raw) return [];
-      const parsed = JSON.parse(raw) as any[];
+      const parsed = JSON.parse(raw) as (Omit<SleepEntry, 'startTime' | 'endTime'> & { startTime: string, endTime: string })[];
       return parsed.map(e => ({
         ...e,
         startTime: new Date(e.startTime),
