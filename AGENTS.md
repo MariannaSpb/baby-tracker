@@ -67,3 +67,14 @@ This is the **most critical** part of the app. Every change MUST be validated ag
 - **Always**: Use `inject()`. Verify every new component passes the Accessibility check.
 - **Never**: Use `@HostBinding`, `@HostListener`, or `NgModules`. Remove focus outlines.
 - **Ask**: Before adding any 3rd-party dependencies.
+
+## Accessibility Agents
+
+Specialized agents are located in `.agents/plugins/accessibility-expert/agents/`.
+
+### Available Agents
+- **contrast-master** — Color contrast ratios, focus indicators, dark mode, 
+  color independence. Invoke when working with colors, CSS, or visual design.
+
+### How to Invoke
+In any AI chat: mention the agent by name or use @contrast-master.md as context.

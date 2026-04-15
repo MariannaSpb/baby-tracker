@@ -6,6 +6,7 @@
     "a11y-auditor"
   ],
   "agents": [
-    "AccessibilityExpert"
+    "AccessibilityExpert",
+    "contrast-master"
   ]
 }

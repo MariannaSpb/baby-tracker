@@ -48,11 +48,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #f7ebff; /* Light purple background based on screenshot */
+  background-color: #f7ebff;
+  /* Light purple background based on screenshot */
   border-radius: 14px;
   padding: 12px 14px;
   margin-bottom: 24px;
-  border: 1px solid #e9d5ff; /* Slightly darker purple border */
+  border: 1px solid #e9d5ff;
+  /* Slightly darker purple border */
 }
 
 .banner-content {
@@ -66,7 +68,8 @@
   place-items: center;
   width: 44px;
   height: 44px;
-  background-color: #8b5cf6; /* Main purple */
+  background-color: #8b5cf6;
+  /* Main purple */
   color: white;
   border-radius: 50%;
 }
@@ -86,14 +89,16 @@
 .banner-label {
   font-size: 14px;
   font-weight: 600;
-  color: #4c1d95; /* Darker purple for text */
+  color: #4c1d95;
+  /* Darker purple for text */
   margin-bottom: 2px;
 }
 
 .banner-value {
   font-size: 24px;
   font-weight: 800;
-  color: #4c1d95; /* Darker purple for text */
+  color: #4c1d95;
+  /* Darker purple for text */
   line-height: 1.1;
 }
 
@@ -101,7 +106,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background-color: #8b5cf6; /* Main purple */
+  background-color: #8b5cf6;
+  /* Main purple */
   color: white;
   border: none;
   border-radius: 8px;
@@ -162,7 +168,8 @@
   outline-offset: 2px;
 }
 
-.action-mat-icon, .material-symbols-outlined {
+.action-mat-icon,
+.material-symbols-outlined {
   display: grid;
   place-items: center;
   inline-size: 44px;
@@ -309,9 +316,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .action-card,
   .icon-button {
     scroll-behavior: auto;
   }
 }
 
+.test-bad-contrast {
+  color: #aaaaaa;
+  background: #ffffff;
+}
