@@ -1,0 +1,7 @@
+node_modules/
+dist/
+
+# Never commit — contains real secrets
+.env
+serviceAccount.json
+*.json.bak
