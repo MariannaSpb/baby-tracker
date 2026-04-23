@@ -1,128 +1,92 @@
-import { Component, inject, signal, OnDestroy, effect } from '@angular/core';
-import { DialogModule } from '@angular/cdk/dialog';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { AuthService } from '../../core/services/auth.service';
-import { FeedService } from '../../core/services/feed.service';
-import { SleepService } from '../../core/services/sleep.service';
+import { DashboardStore } from '../../core/services/dashboard.store';
+import { FeedComponent } from '../feed/feed';
+import { Diaper } from '../diaper/diaper';
+import type { FeedEntry } from '../../core/models/feed.model';
+import type { DiaperEntry } from '../../core/models/diaper.model';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DialogModule, MatIconModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
-export class Dashboard implements OnDestroy {
-  protected readonly authService = inject(AuthService);
-  private readonly feedService = inject(FeedService);
-  private readonly sleepService = inject(SleepService);
+export class Dashboard {
+  protected readonly auth = inject(AuthService);
+  protected readonly store = inject(DashboardStore);
+  private readonly dialog = inject(Dialog);
 
-  protected readonly feedCount = signal(0);
-  protected readonly diperCount = signal(0);
-  protected readonly sleepTotalMins = signal(0);
+  // ── Auth actions ──
 
-  protected readonly isSleeping = signal(false);
-  protected readonly activeSleepDuration = signal(0);
-  private sleepTimerInterval: ReturnType<typeof setInterval> | null = null;
+  protected onLoginClick(): void {
+    this.auth.loginWithGoogle();
+  }
 
-  constructor() {
-    this.checkActiveSleep();
+  protected onLogoutClick(): void {
+    this.auth.logout();
+  }
 
-    effect(() => {
-      if (this.authService.user()) {
-        console.log('1');
-        this.refreshFeedCount();
-        this.refreshDiaperCount();
-        this.refreshSleepCount();
-      } else {
-        this.feedCount.set(0);
-        this.diperCount.set(0);
-        this.sleepTotalMins.set(0);
+  // ── Feed ──
+
+  protected onFeedClick(): void {
+    const ref = this.dialog.open<FeedEntry | undefined>(FeedComponent, {
+      ariaLabel: 'Log feed',
+      autoFocus: 'first-tabbable',
+      restoreFocus: true,
+      width: 'min(430px, calc(100vw - 32px))',
+      maxWidth: '430px',
+      panelClass: ['feed-dialog-panel']
+    });
+
+    ref.closed.subscribe((entry) => {
+      if (entry) {
+        this.store.addFeed(entry).subscribe();
       }
     });
   }
 
-  ngOnDestroy() {
-    if (this.sleepTimerInterval) {
-      clearInterval(this.sleepTimerInterval);
-    }
-  }
+  // ── Diaper ──
 
-  protected onLoginClick() {
-    this.authService.loginWithGoogle();
-  }
+  protected onDiaperClick(): void {
+    const ref = this.dialog.open<DiaperEntry | undefined>(Diaper, {
+      ariaLabel: 'Log diaper',
+      autoFocus: 'first-tabbable',
+      restoreFocus: true,
+      width: 'min(430px, calc(100vw - 32px))',
+      maxWidth: '430px',
+      panelClass: ['feed-dialog-panel']
+    });
 
-  protected onLogoutClick() {
-    this.authService.logout();
-  }
-
-  protected onFeedClick() {
-    this.feedService.openFeedModal().subscribe(() => {
-      this.refreshFeedCount();
+    ref.closed.subscribe((entry) => {
+      if (entry) {
+        this.store.addDiaper(entry).subscribe();
+      }
     });
   }
 
-  protected onDiaperClick() {
-    this.feedService.openDiaperModal().subscribe(() => {
-      this.refreshDiaperCount();
-    });
+  // ── Sleep ──
+
+  protected onSleepClick(): void {
+    if (this.store.sleepTimer.isActive()) return;
+    this.store.startSleep();
   }
 
-  protected onSleepClick() {
-    if (this.isSleeping()) return;
-    this.sleepService.startSleep();
-    this.checkActiveSleep();
-  }
-
-  protected async onStopSleepClick() {
-    await this.sleepService.stopSleep();
-    this.checkActiveSleep();
-    this.refreshSleepCount();
-  }
-
-  private checkActiveSleep() {
-    const active = this.sleepService.isSleeping();
-    this.isSleeping.set(active);
-
-    if (active) {
-      this.updateActiveSleepDuration();
-      if (!this.sleepTimerInterval) {
-        this.sleepTimerInterval = setInterval(() => {
-          this.updateActiveSleepDuration();
-        }, 60000);
-      }
-    } else {
-      this.activeSleepDuration.set(0);
-      if (this.sleepTimerInterval) {
-        clearInterval(this.sleepTimerInterval);
-        this.sleepTimerInterval = null;
-      }
+  protected onStopSleepClick(): void {
+    const result = this.store.stopSleep();
+    if (result) {
+      result.subscribe();
     }
   }
 
-  private updateActiveSleepDuration() {
-    const start = this.sleepService.getActiveSleepStart();
-    if (start) {
-      const mins = Math.floor((new Date().getTime() - start.getTime()) / 60000);
-      this.activeSleepDuration.set(mins);
-    }
-  }
+  // ── Other ──
 
-  private async refreshFeedCount() {
-    this.feedCount.set(await this.feedService.getTodayFeedCount());
-  }
-
-  private async refreshDiaperCount() {
-    this.diperCount.set(await this.feedService.getTodayDiaperCount());
-  }
-
-  private async refreshSleepCount() {
-    this.sleepTotalMins.set(await this.sleepService.getTodayTotalMinutes());
-  }
-
-  public onOtherClick() {
+  protected onOtherClick(): void {
     console.log('Other clicked');
   }
 }
-

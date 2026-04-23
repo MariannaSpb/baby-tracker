@@ -1,5 +1,5 @@
-@if (authService.isInitialized()) {
-  @if (!authService.user()) {
+@if (auth.isInitialized()) {
+  @if (!auth.user()) {
     <div class="page login-page">
       <header class="header">
         <h1 id="login-title" class="title">Baby Tracker</h1>
@@ -21,7 +21,7 @@
   </header>
 
   <main aria-labelledby="page-title">
-    @if (isSleeping()) {
+    @if (store.sleepTimer.isActive()) {
     <div class="active-sleep-banner" role="status">
       <div class="banner-content">
         <span class="banner-icon">
@@ -29,7 +29,7 @@
         </span>
         <div class="banner-text">
           <span class="banner-label">Sleep in progress</span>
-          <span class="banner-value" aria-live="polite">{{ activeSleepDuration() }}m</span>
+          <span class="banner-value" aria-live="polite">{{ store.sleepTimer.durationMinutes() }}m</span>
         </div>
       </div>
       <button class="stop-button" type="button" aria-label="Stop sleep timer" (click)="onStopSleepClick()">
@@ -49,8 +49,8 @@
           <span class="action-label">Feed</span>
         </button>
 
-        <button class="action-card action-card--purple" [class.is-active]="isSleeping()"
-          [attr.aria-pressed]="isSleeping()" type="button" (click)="onSleepClick()">
+        <button class="action-card action-card--purple" [class.is-active]="store.sleepTimer.isActive()"
+          [attr.aria-pressed]="store.sleepTimer.isActive()" type="button" (click)="onSleepClick()">
           <mat-icon class="action-mat-icon">bedtime</mat-icon>
           <span class="action-label">Sleep</span>
         </button>
@@ -89,7 +89,7 @@
           </span>
           <div class="stat-text">
             <span class="stat-label">Feeds</span>
-            <span class="stat-value">{{ feedCount() }}</span>
+            <span class="stat-value">{{ store.feedCount() }}</span>
           </div>
           <p class="test-bad-contrast">Test low contrast text</p>
         </li>
@@ -100,7 +100,7 @@
           </span>
           <div class="stat-text">
             <span class="stat-label">Sleep total today</span>
-            <span class="stat-value">{{ sleepTotalMins() }}m</span>
+            <span class="stat-value">{{ store.sleepTotalMins() }}m</span>
           </div>
         </li>
 
@@ -110,7 +110,7 @@
           </span>
           <div class="stat-text">
             <span class="stat-label">Diapers</span>
-            <span class="stat-value">{{ diperCount() }}</span>
+            <span class="stat-value">{{ store.diaperCount() }}</span>
           </div>
         </li>
 
