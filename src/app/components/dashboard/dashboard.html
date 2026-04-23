@@ -1,9 +1,22 @@
-<div class="page">
+@if (authService.isInitialized()) {
+  @if (!authService.user()) {
+    <div class="page login-page">
+      <header class="header">
+        <h1 id="login-title" class="title">Baby Tracker</h1>
+      </header>
+      <main aria-labelledby="login-title" class="login-main">
+        <button class="action-card action-card--blue sign-in-btn" type="button" (click)="onLoginClick()">
+          <span class="action-label">Sign in with Google</span>
+        </button>
+      </main>
+    </div>
+  } @else {
+    <div class="page">
   <header class="header">
     <h1 id="page-title" class="title">Baby</h1>
 
-    <button class="icon-button" type="button" aria-label="Settings">
-      <mat-icon>settings</mat-icon>
+    <button class="icon-button" type="button" aria-label="Settings" (click)="onLogoutClick()">
+      <mat-icon>logout</mat-icon>
     </button>
   </header>
 
@@ -124,3 +137,5 @@
     </section>
   </main>
 </div>
+  }
+}

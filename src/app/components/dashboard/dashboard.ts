@@ -1,7 +1,8 @@
-import { Component, inject, signal, OnDestroy } from '@angular/core';
+import { Component, inject, signal, OnDestroy, effect } from '@angular/core';
 import { DialogModule } from '@angular/cdk/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { AuthService } from '../../core/services/auth.service';
 import { FeedService } from '../../core/services/feed.service';
 import { SleepService } from '../../core/services/sleep.service';
 
@@ -13,6 +14,7 @@ import { SleepService } from '../../core/services/sleep.service';
   styleUrl: './dashboard.scss'
 })
 export class Dashboard implements OnDestroy {
+  protected readonly authService = inject(AuthService);
   private readonly feedService = inject(FeedService);
   private readonly sleepService = inject(SleepService);
 
@@ -25,16 +27,34 @@ export class Dashboard implements OnDestroy {
   private sleepTimerInterval: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
-    this.refreshFeedCount();
-    this.refreshDiaperCount();
-    this.refreshSleepCount();
     this.checkActiveSleep();
+
+    effect(() => {
+      if (this.authService.user()) {
+        console.log('1');
+        this.refreshFeedCount();
+        this.refreshDiaperCount();
+        this.refreshSleepCount();
+      } else {
+        this.feedCount.set(0);
+        this.diperCount.set(0);
+        this.sleepTotalMins.set(0);
+      }
+    });
   }
 
   ngOnDestroy() {
     if (this.sleepTimerInterval) {
       clearInterval(this.sleepTimerInterval);
     }
+  }
+
+  protected onLoginClick() {
+    this.authService.loginWithGoogle();
+  }
+
+  protected onLogoutClick() {
+    this.authService.logout();
   }
 
   protected onFeedClick() {
@@ -55,8 +75,8 @@ export class Dashboard implements OnDestroy {
     this.checkActiveSleep();
   }
 
-  protected onStopSleepClick() {
-    this.sleepService.stopSleep();
+  protected async onStopSleepClick() {
+    await this.sleepService.stopSleep();
     this.checkActiveSleep();
     this.refreshSleepCount();
   }
@@ -89,16 +109,16 @@ export class Dashboard implements OnDestroy {
     }
   }
 
-  private refreshFeedCount() {
-    this.feedCount.set(this.feedService.getTodayFeedCount());
+  private async refreshFeedCount() {
+    this.feedCount.set(await this.feedService.getTodayFeedCount());
   }
 
-  private refreshDiaperCount() {
-    this.diperCount.set(this.feedService.getTodayDiaperCount());
+  private async refreshDiaperCount() {
+    this.diperCount.set(await this.feedService.getTodayDiaperCount());
   }
 
-  private refreshSleepCount() {
-    this.sleepTotalMins.set(this.sleepService.getTodayTotalMinutes());
+  private async refreshSleepCount() {
+    this.sleepTotalMins.set(await this.sleepService.getTodayTotalMinutes());
   }
 
   public onOtherClick() {

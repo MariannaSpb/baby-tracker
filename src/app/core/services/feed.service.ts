@@ -1,39 +1,63 @@
 import { inject, Injectable } from '@angular/core';
 import { Dialog } from '@angular/cdk/dialog';
-import { tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { tap, firstValueFrom } from 'rxjs';
 
 import type { FeedEntry } from '../models/feed.model';
 import { FeedComponent } from '../../components/feed/feed';
 import { DiaperEntry } from '../models/diaper.model';
 import { Diaper } from '../../components/diaper/diaper';
-
-const FEED_KEY = 'baby_feeds';
-const DIAPER_KEY = 'baby_diapers';
+import { BabyEvent, CreateEventInput } from '../models/backend.model';
 
 @Injectable({ providedIn: 'root' })
 export class FeedService {
   private readonly dialog = inject(Dialog);
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiUrl + '/events';
 
-  addFeed(entry: FeedEntry) {
-    const all = this.getFeeds();
-    all.push(entry);
-    this.setAll(FEED_KEY, all);
+  async addFeed(entry: FeedEntry) {
+    const payload: CreateEventInput = {
+      type: 'feed',
+      startTime: entry.timestamp.toISOString(),
+      details: {
+        feedType: entry.type === 'breast' ? 'breast' : 'bottle',
+        amountMl: entry.amount
+      }
+    };
+    await firstValueFrom(this.http.post(this.apiUrl, payload));
   }
 
-  addDiaper(entry: DiaperEntry) {
-    const all = this.getDiapers();
-    all.push(entry);
-    this.setAll(DIAPER_KEY, all);
+  async addDiaper(entry: DiaperEntry) {
+    // Map diaper types. If type doesn't perfectly match, default to 'wet'
+    let kind = 'wet';
+    if (entry.type === 'poop') kind = 'dirty';
+    if (entry.type === 'mixed') kind = 'mixed';
+
+    const payload: CreateEventInput = {
+      type: 'diaper',
+      startTime: entry.timestamp.toISOString(),
+      details: { kind }
+    };
+    await firstValueFrom(this.http.post(this.apiUrl, payload));
   }
 
-  getTodayFeedCount(): number {
-    const today = new Date();
-    return this.getFeeds().filter(e => this.isSameLocalDay(e.timestamp, today)).length;
+  async getTodayFeedCount(): Promise<number> {
+    try {
+      const events = await firstValueFrom(this.http.get<BabyEvent[]>(`${this.apiUrl}/today?type=feed`));
+      return events.length;
+    } catch {
+      return 0;
+    }
   }
 
-  getTodayDiaperCount(): number {
-    const today = new Date();
-    return this.getDiapers().filter(e => this.isSameLocalDay(e.timestamp, today)).length;
+  async getTodayDiaperCount(): Promise<number> {
+    try {
+      const events = await firstValueFrom(this.http.get<BabyEvent[]>(`${this.apiUrl}/today?type=diaper`));
+      return events.length;
+    } catch {
+      return 0;
+    }
   }
 
   openDiaperModal() {
@@ -68,31 +92,6 @@ export class FeedService {
         console.log('ENTRY')
         if (entry) this.addFeed(entry);
       })
-    );
-  }
-
-  private getFeeds(): FeedEntry[] { return this.getAll(FEED_KEY); }
-  private getDiapers(): DiaperEntry[] { return this.getAll(DIAPER_KEY); }
-
-  private getAll<T extends { timestamp: Date }>(key: string): T[] {
-    try {
-      const raw = localStorage.getItem(key);
-      if (!raw) return [];
-      const parsed = JSON.parse(raw) as (Omit<T, 'timestamp'> & { timestamp: string })[];
-      return parsed.map(e => ({ ...e, timestamp: new Date(e.timestamp) }) as unknown as T);
-    } catch { return []; }
-  }
-
-  private setAll<T extends { timestamp: Date }>(key: string, entries: T[]) {
-    const stored = entries.map(e => ({ ...e, timestamp: e.timestamp.toISOString() }));
-    localStorage.setItem(key, JSON.stringify(stored));
-  }
-
-  private isSameLocalDay(a: Date, b: Date) {
-    return (
-      a.getFullYear() === b.getFullYear() &&
-      a.getMonth() === b.getMonth() &&
-      a.getDate() === b.getDate()
     );
   }
 }

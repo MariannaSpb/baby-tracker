@@ -327,3 +327,19 @@
   color: #aaaaaa;
   background: #ffffff;
 }
+.login-page {
+  .login-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 100px);
+  }
+
+  .sign-in-btn {
+    width: 100%;
+    max-width: 340px;
+    min-height: 56px;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -1,34 +1,44 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { BabyEvent, CreateEventInput } from '../models/backend.model';
+import { firstValueFrom } from 'rxjs';
 import { SleepEntry } from '../models/sleep.model';
 
-const SLEEP_KEY = 'baby_sleep';
 const ACTIVE_SLEEP_KEY = 'baby_active_sleep';
 
 @Injectable({ providedIn: 'root' })
 export class SleepService {
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiUrl + '/events';
+
   startSleep(): void {
     localStorage.setItem(ACTIVE_SLEEP_KEY, new Date().toISOString());
   }
 
-  stopSleep(): SleepEntry | null {
+  async stopSleep(): Promise<BabyEvent | null> {
     const activeStart = this.getActiveSleepStart();
     if (!activeStart) return null;
 
     const endTime = new Date();
     const durationMinutes = Math.round((endTime.getTime() - activeStart.getTime()) / 60000);
 
-    const entry: SleepEntry = {
-      startTime: activeStart,
-      endTime,
-      durationMinutes
+    const payload: CreateEventInput = {
+      type: 'sleep',
+      startTime: activeStart.toISOString(),
+      endTime: endTime.toISOString(),
+      durationMinutes,
+      details: {}
     };
 
-    const all = this.getAll();
-    all.push(entry);
-    this.setAll(all);
-
-    localStorage.removeItem(ACTIVE_SLEEP_KEY);
-    return entry;
+    try {
+      const event = await firstValueFrom(this.http.post<BabyEvent>(this.apiUrl, payload));
+      localStorage.removeItem(ACTIVE_SLEEP_KEY);
+      return event;
+    } catch (e) {
+      console.error('Failed to save sleep', e);
+      return null;
+    }
   }
 
   isSleeping(): boolean {
@@ -40,42 +50,12 @@ export class SleepService {
     return active ? new Date(active) : null;
   }
 
-  getTodayTotalMinutes(): number {
-    return this.getToday().reduce((total, entry) => total + entry.durationMinutes, 0);
-  }
-
-  getToday(): SleepEntry[] {
-    const today = new Date();
-    return this.getAll().filter(e => this.isSameLocalDay(e.startTime, today));
-  }
-
-  private getAll(): SleepEntry[] {
+  async getTodayTotalMinutes(): Promise<number> {
     try {
-      const raw = localStorage.getItem(SLEEP_KEY);
-      if (!raw) return [];
-      const parsed = JSON.parse(raw) as (Omit<SleepEntry, 'startTime' | 'endTime'> & { startTime: string, endTime: string })[];
-      return parsed.map(e => ({
-        ...e,
-        startTime: new Date(e.startTime),
-        endTime: new Date(e.endTime)
-      }));
-    } catch { return []; }
-  }
-
-  private setAll(entries: SleepEntry[]) {
-    const stored = entries.map(e => ({
-      ...e,
-      startTime: e.startTime.toISOString(),
-      endTime: e.endTime.toISOString()
-    }));
-    localStorage.setItem(SLEEP_KEY, JSON.stringify(stored));
-  }
-
-  private isSameLocalDay(a: Date, b: Date) {
-    return (
-      a.getFullYear() === b.getFullYear() &&
-      a.getMonth() === b.getMonth() &&
-      a.getDate() === b.getDate()
-    );
+      const events = await firstValueFrom(this.http.get<BabyEvent[]>(`${this.apiUrl}/today?type=sleep`));
+      return events.reduce((acc, ev) => acc + (ev.durationMinutes || 0), 0);
+    } catch {
+      return 0;
+    }
   }
 }
