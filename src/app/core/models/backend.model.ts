@@ -10,7 +10,7 @@ export interface BabyEvent {
   createdBy: string;
   createdAt: string;
   updatedAt: string;
-  details: Record<string, any>;
+  details: Record<string, unknown>;
 }
 
 export type CreateEventInput = Omit<BabyEvent, 'id' | 'createdAt' | 'updatedAt' | 'createdBy'>;
