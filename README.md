@@ -1,59 +1,58 @@
-# BabyTracker
+# 🌙 Baby Tracker
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.3.
+A warm, mobile-first web application designed specifically for sleep-deprived parents to easily track their newborn's daily rhythms—sleep, feeds, and diapers. 
 
-## Development server
+Built to be used effortlessly with one hand during those 3 AM wake-ups, Baby Tracker combines a soothing, accessible interface with powerful charting so you can spot emerging routines and patterns without the mental math.
 
-To start a local development server, run:
+## 🛠️ Tech Stack
 
-```bash
-ng serve
-```
+This project is split into a robust backend and a lightning-fast frontend:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Frontend**: Angular 21+ (Standalone components, Signals for state), TypeScript, SCSS.
+- **Backend**: Node.js REST API deployed to Google Cloud Run.
+- **Database**: Firebase Firestore.
+- **Authentication**: Firebase Google Sign-In for secure, cross-device synchronization.
 
-## Code scaffolding
+## 🚀 Getting Started
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+If you want to run this project locally on your machine, follow these steps:
 
-```bash
-ng generate component component-name
-```
+### Prerequisites
+Make sure you have [Node.js](https://nodejs.org/) installed on your machine. 
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Running the Frontend
 
-```bash
-ng generate --help
-```
+1. Open your terminal and navigate to the project directory.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the local development server:
+   ```bash
+   npm run start
+   ```
+4. Open your browser and visit `http://localhost:4200/`.
 
-## Building
+### Running the Backend
 
-To build the project run:
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the backend development server:
+   ```bash
+   npm run start
+   ```
 
-```bash
-ng build
-```
+*(Note: You will need your own Firebase service account keys to run the database locally).*
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 🎨 Accessibility (A11y) Commitment
 
-## Running unit tests
+Accessibility isn't an afterthought here; it's a strict requirement. We enforce semantic HTML, logical heading hierarchies, ARIA live regions for dynamic content, and high-contrast visuals to ensure the app is a safe, inclusive space for everyone.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+*Built with ❤️ and coffee. Lots of coffee.*
