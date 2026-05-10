@@ -1,5 +1,5 @@
 import { Injectable, inject, signal, effect } from '@angular/core';
-import { tap } from 'rxjs';
+import { tap, forkJoin } from 'rxjs';
 import type { Observable } from 'rxjs';
 
 import { AuthService } from './auth.service';
@@ -28,6 +28,7 @@ export class DashboardStore {
   readonly diaperCount = signal(0);
   readonly sleepTotalMins = signal(0);
   readonly isLoading = signal(false);
+  readonly todayEvents = signal<BabyEvent[]>([]);
 
   /** The Firestore document ID of the in-progress sleep event (no endTime). */
   private activeSleepEventId: string | null = null;
@@ -137,8 +138,10 @@ export class DashboardStore {
   refreshAll(): void {
     this.isLoading.set(true);
     this.refreshFeedCount();
+    this.refreshFeedCountYesterday();
     this.refreshDiaperCount();
     this.refreshSleepData();
+    this.refreshTodayTimeline();
   }
 
   /**
@@ -189,10 +192,37 @@ export class DashboardStore {
     });
   }
 
+  private refreshFeedCountYesterday(): void {
+    this.api.getYesterdayEvents('feed').subscribe({
+      next: (events) => console.log('YESTERDAY', events.length),
+      //error: () => this.feedCount.set(0)
+    });
+  }
+
   private refreshDiaperCount(): void {
     this.api.getTodayEvents('diaper').subscribe({
       next: (events) => this.diaperCount.set(events.length),
       error: () => this.diaperCount.set(0)
+    });
+  }
+
+  /**
+   * Fetch all event types for today and merge into a single sorted array
+   * for the timeline component.
+   */
+  private refreshTodayTimeline(): void {
+    forkJoin([
+      this.api.getTodayEvents('feed'),
+      this.api.getTodayEvents('sleep'),
+      this.api.getTodayEvents('diaper')
+    ]).subscribe({
+      next: ([feeds, sleeps, diapers]) => {
+        const all = [...feeds, ...sleeps, ...diapers].sort(
+          (a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime()
+        );
+        this.todayEvents.set(all);
+      },
+      error: () => this.todayEvents.set([])
     });
   }
 }

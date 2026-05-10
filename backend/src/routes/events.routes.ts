@@ -9,6 +9,7 @@ eventsRouter.use(authMiddleware);
 
 // Note: /today must be declared BEFORE /:id to avoid Express treating "today" as an id param
 eventsRouter.get('/today', EventsController.getTodayEvents);
+eventsRouter.get('/yesterday', EventsController.getYesterdayEvents);
 eventsRouter.get('/', EventsController.getEvents);
 eventsRouter.post('/', EventsController.createEvent);
 eventsRouter.patch('/:id', EventsController.updateEvent);

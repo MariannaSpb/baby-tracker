@@ -1,11 +1,13 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 import { DashboardStore } from '../../core/services/dashboard.store';
 import { FeedComponent } from '../feed/feed';
 import { Diaper } from '../diaper/diaper';
+import { EventTimeline } from '../../shared/components/event-timeline/event-timeline';
 import type { FeedEntry } from '../../core/models/feed.model';
 import type { DiaperEntry } from '../../core/models/diaper.model';
 
@@ -13,7 +15,7 @@ import type { DiaperEntry } from '../../core/models/diaper.model';
   selector: 'app-dashboard',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DialogModule, MatIconModule],
+  imports: [DialogModule, MatIconModule, RouterLink, EventTimeline],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })

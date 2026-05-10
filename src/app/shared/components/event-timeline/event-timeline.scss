@@ -1,0 +1,100 @@
+:host {
+  display: block;
+}
+
+.empty-state {
+  margin: 0;
+  color: #64748b;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  padding: 24px 12px;
+}
+
+.timeline-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  transition: box-shadow 0.15s ease;
+}
+
+.timeline-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.timeline-icon {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.timeline-icon mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  line-height: 1;
+}
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeline-type {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.timeline-time {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.timeline-details {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ── Type-specific colors (matching dashboard palette) ── */
+
+.timeline-item--feed {
+  color: #2563eb;
+}
+
+.timeline-item--sleep {
+  color: #7c3aed;
+}
+
+.timeline-item--diaper {
+  color: #b45309;
+}

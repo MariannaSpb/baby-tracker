@@ -1,0 +1,51 @@
+<div class="page">
+  <header class="header">
+    <a class="back-link" routerLink="/" aria-label="Back to dashboard">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1 id="history-title" class="title">History</h1>
+  </header>
+
+  <main aria-labelledby="history-title">
+    <div class="tab-bar" role="tablist" aria-label="History views"
+         (keydown)="onTabKeydown($event)">
+      <button role="tab"
+              id="tab-calendar"
+              type="button"
+              [attr.aria-selected]="activeTab() === 'calendar'"
+              [attr.tabindex]="activeTab() === 'calendar' ? 0 : -1"
+              aria-controls="panel-calendar"
+              [class.tab--active]="activeTab() === 'calendar'"
+              (click)="selectTab('calendar')">
+        <mat-icon aria-hidden="true">calendar_today</mat-icon>
+        Calendar
+      </button>
+
+      <button role="tab"
+              id="tab-charts"
+              type="button"
+              [attr.aria-selected]="activeTab() === 'charts'"
+              [attr.tabindex]="activeTab() === 'charts' ? 0 : -1"
+              aria-controls="panel-charts"
+              [class.tab--active]="activeTab() === 'charts'"
+              (click)="selectTab('charts')">
+        <mat-icon aria-hidden="true">bar_chart</mat-icon>
+        Charts
+      </button>
+    </div>
+
+    <section id="panel-calendar"
+             role="tabpanel"
+             aria-labelledby="tab-calendar"
+             [hidden]="activeTab() !== 'calendar'">
+      <app-history-calendar />
+    </section>
+
+    <section id="panel-charts"
+             role="tabpanel"
+             aria-labelledby="tab-charts"
+             [hidden]="activeTab() !== 'charts'">
+      <app-history-charts />
+    </section>
+  </main>
+</div>

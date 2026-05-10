@@ -15,7 +15,11 @@
   <header class="header">
     <h1 id="page-title" class="title">Baby</h1>
 
-    <button class="icon-button" type="button" aria-label="Settings" (click)="onLogoutClick()">
+    <a class="icon-button" routerLink="/history" aria-label="View history">
+      <mat-icon>history</mat-icon>
+    </a>
+
+    <button class="icon-button" type="button" aria-label="Sign out" (click)="onLogoutClick()">
       <mat-icon>logout</mat-icon>
     </button>
   </header>
@@ -91,7 +95,6 @@
             <span class="stat-label">Feeds</span>
             <span class="stat-value">{{ store.feedCount() }}</span>
           </div>
-          <p class="test-bad-contrast">Test low contrast text</p>
         </li>
 
         <li class="stat-card">
@@ -129,10 +132,8 @@
     <section class="section" aria-labelledby="timeline-title">
       <h2 id="timeline-title" class="section-title">Today's Timeline</h2>
 
-      <!-- <div class="timeline-card" role="region" aria-label="Today's timeline"> -->
-      <!-- to do: use list and list item -->
       <div class="timeline-card">
-        <p class="empty-state">No events yet today</p>
+        <app-event-timeline [events]="store.todayEvents()" emptyMessage="No events yet today" />
       </div>
     </section>
   </main>

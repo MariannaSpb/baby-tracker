@@ -1,0 +1,22 @@
+<div class="calendar-container">
+  <mat-form-field appearance="outline" class="date-field">
+    <mat-label>Select date</mat-label>
+    <input matInput
+           [matDatepicker]="picker"
+           [value]="selectedDate()"
+           [max]="today"
+           (dateChange)="onDateChange($event.value)"
+           id="history-date-input"
+           aria-required="true">
+    <mat-datepicker-toggle matIconSuffix [for]="picker" />
+    <mat-datepicker #picker />
+  </mat-form-field>
+
+  @if (isLoading()) {
+    <p class="loading-state" role="status" aria-live="polite">Loading events…</p>
+  } @else {
+    <app-event-timeline
+      [events]="events()"
+      emptyMessage="No events recorded for this date" />
+  }
+</div>

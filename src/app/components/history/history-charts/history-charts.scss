@@ -1,0 +1,105 @@
+:host {
+  display: block;
+}
+
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// ── Segmented Control ──────────────────────────────────────────────────────────
+
+.range-selector {
+  display: flex;
+  gap: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 4px;
+  align-self: center;
+}
+
+.range-button {
+  flex: 1;
+  min-height: 44px;
+  min-width: 64px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover:not(.active) {
+    background: rgba(124, 58, 237, 0.06);
+    color: var(--text);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  &.active {
+    background: #7c3aed;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  }
+}
+
+// ── Chart Cards ────────────────────────────────────────────────────────────────
+
+.chart-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chart-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chart-canvas-wrapper {
+  position: relative;
+  height: 200px;
+}
+
+// ── States ─────────────────────────────────────────────────────────────────────
+
+.loading-state,
+.error-state {
+  margin: 0;
+  padding: 24px 12px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.loading-state {
+  color: var(--muted);
+}
+
+.error-state {
+  color: #dc2626;
+}

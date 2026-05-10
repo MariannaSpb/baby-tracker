@@ -1,0 +1,54 @@
+<div class="charts-container">
+  <nav class="range-selector" role="radiogroup" aria-label="Chart date range">
+    @for (range of rangeOptions; track range.value) {
+      <button class="range-button"
+              role="radio"
+              type="button"
+              [attr.aria-checked]="selectedRange() === range.value"
+              [class.active]="selectedRange() === range.value"
+              (click)="onRangeChange(range.value)">
+        {{ range.label }}
+      </button>
+    }
+  </nav>
+
+  @if (isLoading()) {
+    <p class="loading-state" role="status" aria-live="polite">Loading chart data…</p>
+  } @else if (hasError()) {
+    <p class="error-state" role="alert">Failed to load chart data. Please try again.</p>
+  } @else {
+    @for (card of chartCards(); track card.config.type) {
+      <section class="chart-card" [attr.aria-label]="card.config.label + ' chart'">
+        <h3 class="chart-title">
+          <span class="chart-color-dot" [style.background]="card.config.color"></span>
+          {{ card.config.label }}
+        </h3>
+
+        <div class="chart-canvas-wrapper">
+          <canvas #chartCanvas
+                  [attr.aria-label]="card.config.label + ' bar chart for the selected date range'"
+                  role="img">
+          </canvas>
+        </div>
+
+        <!-- Visually hidden data table for screen readers -->
+        <table class="sr-only" [attr.aria-label]="card.config.label + ' data'">
+          <thead>
+            <tr>
+              <th scope="col">Day</th>
+              <th scope="col">{{ card.config.label }} ({{ card.config.yAxisLabel }})</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (day of card.days; track day.date; let i = $index) {
+              <tr>
+                <td>{{ day.label }}</td>
+                <td>{{ card.values[i] }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </section>
+    }
+  }
+</div>

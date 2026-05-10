@@ -1,0 +1,23 @@
+@if (isEmpty()) {
+  <p class="empty-state" role="status">{{ emptyMessage() }}</p>
+} @else {
+  <ul class="timeline-list" aria-label="Event timeline">
+    @for (event of events(); track event.id) {
+      <li class="timeline-item" [class]="getTypeClass(event.type)">
+        <span class="timeline-icon" [attr.aria-hidden]="true">
+          <mat-icon>{{ getIcon(event.type) }}</mat-icon>
+        </span>
+
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <span class="timeline-type">{{ getTypeLabel(event.type) }}</span>
+            <time class="timeline-time" [attr.datetime]="event.startTime">
+              {{ event.startTime | date:'HH:mm' }}
+            </time>
+          </div>
+          <span class="timeline-details">{{ getDetails(event) }}</span>
+        </div>
+      </li>
+    }
+  </ul>
+}
